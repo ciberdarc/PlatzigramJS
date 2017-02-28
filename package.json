@@ -1,0 +1,24 @@
+{
+  "name": "platzigram",
+  "version": "0.1.0",
+  "description": "Comparte tus fotos estudiando en platzi con el resto de la comunidad",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ciberdarc/PlatzigramJS.git"
+  },
+  "keywords": [
+    "platzi",
+    "javascript",
+    "platzigram"
+  ],
+  "author": "alexis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ciberdarc/PlatzigramJS/issues"
+  },
+  "homepage": "https://github.com/ciberdarc/PlatzigramJS#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
