@@ -14,7 +14,7 @@ page('/', function(ctx, next){
     				avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
     		},
     		url: 'office.jpg',
-    		likes: 10,
+    		likes: 0,
     		liked: false,
             createdAt: new Date()
     	},
