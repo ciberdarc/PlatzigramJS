@@ -12,25 +12,25 @@ app.get(['/', '/signin', '/signup'], function (req, res) {
 
 app.get('/api/pictures', function (req, res) {
   var pictures = [
-      {
-    		user: {
-    				username: 'alexisaraujo',
-    				avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
-    		},
-    		url: 'office.jpg',
-    		likes: 0,
-    		liked: false,
-            createdAt: new Date().getTime()
-    	},
-    	    	{
-    		user: {
-    				username: 'alexisaraujo',
-    				avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
-    		},
-    		url: 'office.jpg',
-    		likes: 2,
-    		liked: true,
-            createdAt: new Date().setDate(new Date().getDate() - 10)
+    {
+      user: {
+        username: 'alexisaraujo',
+        avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
+      },
+      url: 'office.jpg',
+      likes: 0,
+      liked: false,
+      createdAt: new Date().getTime()
+    },
+    {
+      user: {
+        username: 'alexisaraujo',
+        avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
+      },
+      url: 'office.jpg',
+      likes: 2,
+      liked: true,
+      createdAt: new Date().setDate(new Date().getDate() - 10)
     }
   ]
   setTimeout(function () {

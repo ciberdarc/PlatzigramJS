@@ -1,7 +1,7 @@
-var yo = require('yo-yo');
-var translate = require('../translate');
+var yo = require('yo-yo')
+var translate = require('../translate')
 
-var el =  yo`<footer class="site-footer">
+var el = yo`<footer class="site-footer">
   <div class="container">
     <div class="row">
       <div class="col s12 l3 center-align"><a href="#" data-activates="dropdown1" class="dropdown-button btn btn-flat">Idioma</a>
@@ -13,11 +13,11 @@ var el =  yo`<footer class="site-footer">
       <div class="col s12 l3 push-l6 center-align">© 2017 Platzigram</div>
     </div>
   </div>
-</footer>`;
+</footer>`
 
-function lang(locale){
-  localStorage.locale = locale;
-  location.reload();
+function lang (locale) {
+  localStorage.locale = locale
+  location.reload()
 }
 
-document.body.appendChild(el);
+document.body.appendChild(el)
