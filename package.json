@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ciberdarc/PlatzigramJS#readme",
   "dependencies": {
     "axios": "^0.15.3",
+    "concurrently": "^3.4.0",
     "empty-element": "^1.0.0",
     "express": "^4.15.2",
     "intl": "^1.2.5",
@@ -44,6 +45,7 @@
   },
   "scripts": {
     "build": "gulp",
-    "start": "gulp watch & node server.js"
+    "start": "concurrently \"gulp watch\" \"node server\" ",
+    "start2": "gulp watch & node server.js"
   }
 }

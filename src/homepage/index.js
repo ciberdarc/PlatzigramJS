@@ -17,12 +17,12 @@ page('/', header, loadPicturesFetch, function (ctx, next) {
 //   request
 //     .get('/api/pictures')
 //     .end(function (err, res) {
-//     if (err) return console.log (err)
+//       if (err) return console.log(err)
 //       ctx.pictures = res.body
 //       next()
 //     })
 // }
-
+//
 // function loadPicturesAxios (ctx, next) {
 //   axios
 //     .get('/api/pictures')
