@@ -1,5 +1,5 @@
 module.exports = {
-  likes:   '{likes, plural, ' +
+  likes: '{likes, plural, ' +
             '=0 { no likes}' +
             '=1 {# like}' +
             'other {# likes}}',
@@ -17,5 +17,7 @@ module.exports = {
   'signup.have-account': 'Already have an account?',
   'signin': 'Signing',
   'signin.not-have-account': '¿Dont\'t have an account',
-  'languaje': 'Languaje'
+  'languaje': 'Languaje',
+  'upload-picture': 'Upload picture',
+  'upload': 'Upload'
 }
