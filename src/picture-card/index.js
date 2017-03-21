@@ -1,19 +1,15 @@
-var yo = require('yo-yo');
+var yo = require('yo-yo')
 var translate = require('../translate')
 
-
-
-
-module.exports = function pictureCard(pic){
-  var el;
-
-  function render(picture){
-    return  yo`<div class="card ${picture.liked ? 'liked' : ''}">
+module.exports = function pictureCard (pic) {
+  var el
+  function render (picture) {
+    return yo`<div class="card ${picture.liked ? 'liked' : ''}">
     <div class="card-image">
       <img class="activator" src="${picture.url}">
     </div>
     <div class="card-content">
-      <a href="/user/${picture.user.username}" class="card-title">
+      <a href="/${picture.user.username}" class="card-title">
         <img src="${picture.user.avatar}" class="avatar"/>
         <span class="username">${picture.user.username}</span>
       </a>
@@ -27,14 +23,14 @@ module.exports = function pictureCard(pic){
   </div>`
   }
 
-  function like(liked){
-    pic.liked = liked;
-    pic.likes += liked ? 1 : -1;
-    var newEl = render(pic);
-    yo.update(el, newEl);
-    return false;
+  function like (liked) {
+    pic.liked = liked
+    pic.likes += liked ? 1 : -1
+    var newEl = render(pic)
+    yo.update(el, newEl)
+    return false
   }
 
-  el = render(pic);
-  return el;
+  el = render(pic)
+  return el
 }
