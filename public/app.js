@@ -18303,12 +18303,19 @@ var request = require('superagent');
 var header = require('../header');
 // var axios = require('axios')
 
-page('/', header, loadPictures, function (ctx, next) {
+page('/', header, loading, loadPictures, function (ctx, next) {
   title('Platzigram');
   var main = document.getElementById('main-container');
 
   empty(main).appendChild(template(ctx.pictures));
 });
+
+function loading(ctx, next) {
+  var el = document.createElement('div');
+  el.classList.add('loader');
+  document.getElementById('main-container').appendChild(el);
+  next();
+}
 
 function loadPictures(ctx, next) {
   request.get('/api/pictures').end(function (err, res) {
@@ -18574,9 +18581,9 @@ module.exports = {
 'use strict';
 
 if (!window.Intl) {
-		window.Intl = require('intl');
-		require('intl/locale-data/jsonp/en-US.js');
-		require('intl/locale-data/jsonp/es.js');
+  window.Intl = require('intl');
+  require('intl/locale-data/jsonp/en-US.js');
+  require('intl/locale-data/jsonp/es.js');
 }
 
 window.IntlRelativeFormat = require('intl-relativeformat');
@@ -18595,12 +18602,12 @@ MESSAGES['en-US'] = en;
 var locale = localStorage.locale || 'es';
 
 module.exports = {
-		message: function message(text, opts) {
-				opts = opts || {};
-				var msg = new IntlMessageFormat(MESSAGES[locale][text], locale, null);
-				return msg.format(opts);
-		},
-		date: new IntlRelativeFormat(locale)
+  message: function message(text, opts) {
+    opts = opts || {};
+    var msg = new IntlMessageFormat(MESSAGES[locale][text], locale, null);
+    return msg.format(opts);
+  },
+  date: new IntlRelativeFormat(locale)
 };
 
 },{"./en-US":354,"./es":355,"intl":322,"intl-messageformat":307,"intl-relativeformat":316,"intl-relativeformat/dist/locale-data/en.js":314,"intl-relativeformat/dist/locale-data/es.js":315,"intl/locale-data/jsonp/en-US.js":324,"intl/locale-data/jsonp/es.js":325}],357:[function(require,module,exports){
