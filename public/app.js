@@ -18641,6 +18641,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   (0, _emptyElement2.default)(main).appendChild((0, _template2.default)(ctx.user));
 });
 
+(0, _page2.default)('/:username/:id', loadUser, _header2.default, function (ctx, next) {
+  var main = document.getElementById('main-container');
+  (0, _title2.default)('Platzigram - ' + ctx.user.username);
+  (0, _emptyElement2.default)(main).appendChild((0, _template2.default)(ctx.user));
+  $('.modal').modal({
+    complete: function complete() {
+      (0, _page2.default)('/' + ctx.params.username);
+    }
+  });
+  $('#modal' + ctx.params.id).modal('open');
+});
+
 function loadUser(ctx, next) {
   return regeneratorRuntime.async(function loadUser$(_context) {
     while (1) {
@@ -18677,25 +18689,19 @@ function loadUser(ctx, next) {
 'use strict';
 
 var _templateObject = _taggedTemplateLiteral(['<div class="container user-page">\n     <div class="row">\n       <div class="col s12 m10 offset-m1 l8 offset-l2 center-align heading">\n         <div class="row">\n           <div class="col s12 m10 offset-m1 l3 offset-l3 center">\n             <img src="', '" alt="', '" class="responsive-img circle" />\n           </div>\n           <div class="col s12 m10 offset-m1 l6 left-align">\n             <h2 class="hide-on-large-only center-align">', '</h2>\n             <h2 class="hide-on-med-and-down left-align">', '</h2>\n           </div>\n         </div>\n       </div>\n       <div class="row">\n         ', '\n       </div>\n     </div>\n   </div>'], ['<div class="container user-page">\n     <div class="row">\n       <div class="col s12 m10 offset-m1 l8 offset-l2 center-align heading">\n         <div class="row">\n           <div class="col s12 m10 offset-m1 l3 offset-l3 center">\n             <img src="', '" alt="', '" class="responsive-img circle" />\n           </div>\n           <div class="col s12 m10 offset-m1 l6 left-align">\n             <h2 class="hide-on-large-only center-align">', '</h2>\n             <h2 class="hide-on-med-and-down left-align">', '</h2>\n           </div>\n         </div>\n       </div>\n       <div class="row">\n         ', '\n       </div>\n     </div>\n   </div>']),
-    _templateObject2 = _taggedTemplateLiteral(['<div class="col s12 m6 l4">\n             <div class="picture-container">\n               <img src="', ')" class="picture" />\n               <div class="likes"><i class="fa fa-heart"></i> ', '</div>\n             </div>\n           </div>'], ['<div class="col s12 m6 l4">\n             <div class="picture-container">\n               <img src="', ')" class="picture" />\n               <div class="likes"><i class="fa fa-heart"></i> ', '</div>\n             </div>\n           </div>']);
-
-var _yoYo = require('yo-yo');
-
-var _yoYo2 = _interopRequireDefault(_yoYo);
-
-var _layout = require('../layout');
-
-var _layout2 = _interopRequireDefault(_layout);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+    _templateObject2 = _taggedTemplateLiteral(['<div class="col s12 m6 l4">\n             <a href="/', '/', '" class="picture-container">\n               <img src="', ')" class="picture" />\n               <div class="likes"><i class="fa fa-heart"></i> ', '</div>\n             </a>\n             <div id="modal', '" class="modal modal-fixed-footer">\n               <div class="modal-content">\n                 <img src="', '" />\n               </div>\n               <div class="modal-footer">\n                 <div class="modal-likes modal-action modal-close waves-effect btn btn-flat">\n                   <i class="fa fa-heart"></i> ', '\n                 </div>\n               </div>\n             </div>\n           </div>'], ['<div class="col s12 m6 l4">\n             <a href="/', '/', '" class="picture-container">\n               <img src="', ')" class="picture" />\n               <div class="likes"><i class="fa fa-heart"></i> ', '</div>\n             </a>\n             <div id="modal', '" class="modal modal-fixed-footer">\n               <div class="modal-content">\n                 <img src="', '" />\n               </div>\n               <div class="modal-footer">\n                 <div class="modal-likes modal-action modal-close waves-effect btn btn-flat">\n                   <i class="fa fa-heart"></i> ', '\n                 </div>\n               </div>\n             </div>\n           </div>']);
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
+var yo = require('yo-yo');
+var layout = require('../layout');
+var translate = require('../translate').message;
+
 module.exports = function (user) {
-  var el = (0, _yoYo2.default)(_templateObject, user.avatar, user.username, user.username, user.username, user.pictures.map(function (picture) {
-    return (0, _yoYo2.default)(_templateObject2, picture.src, picture.likes);
+  var el = yo(_templateObject, user.avatar, user.username, user.username, user.username, user.pictures.map(function (picture) {
+    return yo(_templateObject2, user.username, picture.id, picture.src, picture.likes, picture.id, picture.src, translate('likes', { likes: picture.likes }));
   }));
-  return (0, _layout2.default)(el);
+  return layout(el);
 };
 
-},{"../layout":348,"yo-yo":340}]},{},[346]);
+},{"../layout":348,"../translate":356,"yo-yo":340}]},{},[346]);

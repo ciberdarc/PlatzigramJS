@@ -211,3 +211,17 @@ $avatar-size-big: 150px;
        display: inline-block;
      }
    }
+
+.modal{
+   		img{
+   			max-width: 90%;
+   			max-height: 90%;
+   		}
+   		.fa-heart{
+   			display: inline-block;
+   		}
+   		.modal-likes i{
+         color: $platzigram-red;
+       	 font-size: 20px;
+      }
+}

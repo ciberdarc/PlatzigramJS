@@ -1,5 +1,6 @@
-import yo from 'yo-yo'
-import layout from '../layout'
+var yo = require('yo-yo')
+var layout = require('../layout')
+var translate = require('../translate').message
 
 module.exports = function (user) {
   var el = yo`<div class="container user-page">
@@ -18,9 +19,19 @@ module.exports = function (user) {
        <div class="row">
          ${user.pictures.map(function (picture) {
            return yo`<div class="col s12 m6 l4">
-             <div class="picture-container">
+             <a href="/${user.username}/${picture.id}" class="picture-container">
                <img src="${picture.src})" class="picture" />
                <div class="likes"><i class="fa fa-heart"></i> ${picture.likes}</div>
+             </a>
+             <div id="modal${picture.id}" class="modal modal-fixed-footer">
+               <div class="modal-content">
+                 <img src="${picture.src}" />
+               </div>
+               <div class="modal-footer">
+                 <div class="modal-likes modal-action modal-close waves-effect btn btn-flat">
+                   <i class="fa fa-heart"></i> ${translate('likes', {likes: picture.likes})}
+                 </div>
+               </div>
              </div>
            </div>`
          })}
