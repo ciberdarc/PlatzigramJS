@@ -1,12 +1,24 @@
 var express = require('express')
 var multer = require('multer')
 var ext = require('file-extension')
+var aws = require('aws-sdk')
+var multerS3 = require('multer-s3')
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads')
+var config = require('./config')
+
+var s3 = new aws.S3({
+  accessKeyId: config.aws.accessKey,
+  secretAccessKey: config.aws.secretKey
+})
+
+var storage = multerS3({
+  s3: s3,
+  bucket: 'alexisgram',
+  acl: 'public-read',
+  metadata: function (req, file, cb) {
+    cb(null, {fieldName: file.fieldname})
   },
-  filename: function (req, file, cb) {
+  key: function (req, file, cb) {
     cb(null, +Date.now() + '-' + ext(file.originalname))
   }
 })
