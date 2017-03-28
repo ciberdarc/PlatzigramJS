@@ -4,6 +4,8 @@ var template = require('./template')
 var title = require('title')
 var request = require('superagent')
 var header = require('../header')
+var Webcam = require('webcamjs')
+var picture = require('../picture-card')
 // var axios = require('axios')
 
 page('/', header, loading, loadPictures, function (ctx, next) {
@@ -11,6 +13,63 @@ page('/', header, loading, loadPictures, function (ctx, next) {
   var main = document.getElementById('main-container')
 
   empty(main).appendChild(template(ctx.pictures))
+  const picturePreview = $('#picture-preview')
+  const camaraInput = $('#camara-input')
+  const cancelPicture = $('#cancelPicture')
+  const shootButton = $('#shoot')
+  const uploadButton = $('#uploadButton')
+
+  function reset () {
+    picturePreview.addClass('hide')
+    uploadButton.addClass('hide')
+    cancelPicture.addClass('hide')
+    shootButton.removeClass('hide')
+    camaraInput.removeClass('hide')
+  }
+
+  cancelPicture.click(reset)
+
+  $('.modal').modal({
+    ready: function () {
+      Webcam.set({
+        width: 400,
+        height: 300,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+      })
+      Webcam.attach('#camara-input')
+      shootButton.click((ev) => {
+        Webcam.snap((dataUri) => {
+          picturePreview.html('<img src="' + dataUri + '"/>')
+          picturePreview.removeClass('hide')
+          uploadButton.removeClass('hide')
+          cancelPicture.removeClass('hide')
+          shootButton.addClass('hide')
+          camaraInput.addClass('hide')
+          uploadButton.off('click')
+          uploadButton.click(() => {
+            const pic = {
+              url: dataUri,
+              likes: 0,
+              liked: false,
+              createdAt: +new Date(),
+              user: {
+                username: 'alexisaraujo',
+                avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
+              }
+            }
+            $('#picture-cards').prepend(picture(pic))
+            reset()
+            $('#modalCamera').modal('close')
+          })
+        })
+      })
+    },
+    complete: function () {
+      Webcam.reset()
+      reset()
+    }
+  })
 })
 
 function loading (ctx, next) {
