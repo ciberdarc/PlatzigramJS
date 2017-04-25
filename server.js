@@ -9,6 +9,7 @@ var bodyParser = require('body-parser')
 var expressSession = require('express-session')
 var passport = require('passport')
 var platzigram = require('platzigram-client')
+var auth = require('./auth')
 // var port = process.env.PORT || 3000
 
 var client = platzigram.createClient(config.client)
@@ -34,21 +35,24 @@ var upload = multer({storage: storage}).single('picture')
 
 var app = express()
 
-app.set(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(expressSession({
   secret: config.secret,
   resave: false,
-  saveUnitialized: false
+  saveUninitialized: false
 }))
-
 app.use(passport.initialize())
 app.use(passport.session())
 
 app.set('view engine', 'pug')
 
 app.use(express.static('public'))
+
+passport.use(auth.localStrategy)
+passport.deserializeUser(auth.deserializeUser)
+passport.serializeUser(auth.serializeUser)
 
 app.get('/', function (req, res) {
   res.render('index', {title: 'Platzigram'})
@@ -57,6 +61,19 @@ app.get('/', function (req, res) {
 app.get('/signin', function (req, res) {
   res.render('index', {title: 'Platzigram - Signin'})
 })
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/signin'
+}))
+
+function ensureAuth (req, res, next) {
+  if (req.isAutheticated()) {
+    return next()
+  }
+
+  res.status(401).send({error: 'not authenticated'})
+}
 
 app.get('/signup', function (req, res) {
   res.render('index', {title: 'Platzigram - Signup'})
@@ -97,7 +114,7 @@ app.get('/api/pictures', function (req, res) {
   setTimeout(() => res.send(pictures), 2000)
 })
 
-app.post('/api/pictures', function (req, res) {
+app.post('/api/pictures', ensureAuth, function (req, res) {
   upload(req, res, function (err) {
     if (err) {
       return res.send(500, 'Error uploading file')
