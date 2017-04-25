@@ -38,7 +38,11 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
-    "platzigram-clien": "ciberdarc/Platzigram-api"
+<<<<<<< Updated upstream
+    "platzigram-client": "file:../platzigram-client",
+=======
+    "platzigram-clien": "ciberdarc/Platzigram-api",
+>>>>>>> Stashed changes
     "pug": "^2.0.0-beta11",
     "superagent": "^3.5.0",
     "title": "^1.0.0",
