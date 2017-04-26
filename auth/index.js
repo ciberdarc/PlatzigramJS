@@ -29,7 +29,7 @@ exports.serializeUser = function (user, done) {
 
 exports.deserializeUser = function (user, done) {
   client.getUser(user.username, (err, usr) => {
-    // usr.token = user.token
+    usr.token = user.token
     done(err, usr)
   })
 }

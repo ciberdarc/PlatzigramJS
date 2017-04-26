@@ -13,7 +13,7 @@ var signinForm = yo`<div class="col s12 m7">
                 </div>
                 <div class="divider"></div>
                 <div class="section">
-                  <input type="text" name="name" placeholder="${translate.message('email')}">
+                  <input type="text" name="username" placeholder="${translate.message('username')}">
                   <input type="password" name="password" placeholder="${translate.message('password')}">
                   <button class="btn waves-effect waves-light btn-signup" type="submit">${translate.message('signup.text')}</button>
                 </div>

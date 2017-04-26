@@ -10,7 +10,7 @@ var expressSession = require('express-session')
 var passport = require('passport')
 var platzigram = require('platzigram-client')
 var auth = require('./auth')
-// var port = process.env.PORT || 3000
+var port = process.env.PORT || 3000
 
 var client = platzigram.createClient(config.client)
 
@@ -58,23 +58,6 @@ app.get('/', function (req, res) {
   res.render('index', {title: 'Platzigram'})
 })
 
-app.get('/signin', function (req, res) {
-  res.render('index', {title: 'Platzigram - Signin'})
-})
-
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/signin'
-}))
-
-function ensureAuth (req, res, next) {
-  if (req.isAutheticated()) {
-    return next()
-  }
-
-  res.status(401).send({error: 'not authenticated'})
-}
-
 app.get('/signup', function (req, res) {
   res.render('index', {title: 'Platzigram - Signup'})
 })
@@ -87,6 +70,23 @@ app.post('/signup', function (req, res) {
     res.redirect('/signin')
   })
 })
+
+app.get('/signin', function (req, res) {
+  res.render('index', {title: 'Platzigram - Signin'})
+})
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/signin'
+}))
+
+function ensureAuth (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+
+  res.status(401).send({ error: 'not authenticated' })
+}
 
 app.get('/api/pictures', function (req, res) {
   var pictures = [
@@ -171,7 +171,11 @@ app.get('/:username/:id', function (req, res) {
   res.render('index', {title: `Platzigram - ${req.params.username}`})
 })
 
-app.listen(3000, function (err) {
-  if (err) return console.log('Hubo un error').process.exit(1)
-  console.log('Escuchando el puerto 3000')
+app.listen(port, function (err) {
+  if (err) {
+    console.error('Hubo un error')
+    process.exit(1)
+  }
+  console.log(`Platzigram escuchando en el puerto ${port}`)
+  console.log(config.aws.accessKey)
 })
