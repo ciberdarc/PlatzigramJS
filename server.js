@@ -161,19 +161,7 @@ app.get('/:username/:id', function (req, res) {
   res.render('index', {title: `Platzigram - ${req.params.username}`})
 })
 
-function ensureAuth (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-
-  res.status(401).send({error: 'not authenticated'})
-}
-
-app.listen(port, function (err) {
-  if (err) {
-    console.error('Hubo un error')
-    process.exit(1)
-  }
-
-  console.log(`Platzigram escuchando en el puerto ${port}`)
+app.listen(3000, function (err) {
+  if (err) return console.log('Hubo un error').process.exit(1)
+  console.log('Escuchando el puerto 3000')
 })
