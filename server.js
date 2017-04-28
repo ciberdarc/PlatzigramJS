@@ -110,7 +110,7 @@ app.get('/api/pictures', function (req, res) {
 app.post('/api/pictures', ensureAuth, function (req, res) {
   upload(req, res, function (err) {
     if (err) {
-      return res.send(500, 'Error uploading file')
+      return res.status(500).send(`Error uploading file: ${err.message}`)
     }
 
     var user = req.user
@@ -127,50 +127,23 @@ app.post('/api/pictures', ensureAuth, function (req, res) {
         name: user.name
       }
     }, token, function (err, img) {
-      if (err) return res.status(500).send(err.message)
+      if (err) {
+        return res.status(500).send(err.message)
+      }
+
       res.send(`File uploaded: ${req.file.location}`)
     })
   })
 })
 
 app.get('/api/user/:username', (req, res) => {
-  const user = {
-    username: 'alexisaraujo',
-    avatar: 'https://pbs.twimg.com/profile_images/626199475988492288/EmMAwbix.jpg',
-    pictures: [
-      {
-        id: 1,
-        src: 'https://scontent.cdninstagram.com/t51.2885-15/e35/13249955_490289661169049_1148767241_n.jpg?ig_cache_key=MTI2MTcxMjk0NTI0MTE4MTYxMg%3D%3D.2.c',
-        likes: 3
-      },
-      {
-        id: 2,
-        src: 'https://scontent.cdninstagram.com/t51.2885-15/sh0.08/e35/13167336_1109360009130759_1843730518_n.jpg?ig_cache_key=MTI2MDI3ODk3ODg1NjE0NDgwNA%3D%3D.2',
-        likes: 10
-      },
-      {
-        id: 3,
-        src: 'https://scontent.cdninstagram.com/t51.2885-15/e35/13256800_140463126368529_833209303_n.jpg?ig_cache_key=MTI1OTA2MjYxMjk1NDIzODk1NQ%3D%3D.2.c',
-        likes: 23
-      },
-      {
-        id: 4,
-        src: 'https://scontent.cdninstagram.com/t51.2885-15/e35/13266754_576393892539209_1985401758_n.jpg?ig_cache_key=MTI1OTA2NDExNDcyNDc4NTE4Mg%3D%3D.2.c',
-        likes: 0
-      },
-      {
-        id: 5,
-        src: 'https://scontent.cdninstagram.com/t51.2885-15/e35/13267525_947784585319152_587355521_n.jpg?ig_cache_key=MTI1OTIwMDc4Mjg0OTA2ODY3Mw%3D%3D.2.c',
-        likes: 1
-      },
-      {
-        id: 6,
-        src: 'https://scontent.cdninstagram.com/t51.2885-15/e35/13102524_488332414701993_2058845250_n.jpg?ig_cache_key=MTI1NjU3ODQ2MjEzNzUwMzczMA%3D%3D.2.c',
-        likes: 99
-      }
-    ]
-  }
-  res.send(user)
+  var username = req.params.username
+  client.getUser(username, function (err, user) {
+    if (err) {
+      return res.send(404).send({error: 'user not found'})
+    }
+    res.send(user)
+  })
 })
 
 app.get('/:username', function (req, res) {
