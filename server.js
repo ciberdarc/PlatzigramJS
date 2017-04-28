@@ -101,29 +101,10 @@ app.get('/whoami', function (req, res) {
 })
 
 app.get('/api/pictures', function (req, res) {
-  var pictures = [
-    {
-      user: {
-        username: 'alexisaraujo',
-        avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
-      },
-      url: 'office.jpg',
-      likes: 0,
-      liked: false,
-      createdAt: new Date().getTime()
-    },
-    {
-      user: {
-        username: 'alexisaraujo',
-        avatar: 'https://scontent-ord1-1.xx.fbcdn.net/v/t1.0-9/15095636_10155681383018539_239145637589870926_n.jpg?oh=a116b9c31e753fd9cbea87d27e7eef57&oe=593604FA'
-      },
-      url: 'office.jpg',
-      likes: 2,
-      liked: true,
-      createdAt: new Date().setDate(new Date().getDate() - 10)
-    }
-  ]
-  setTimeout(() => res.send(pictures), 2000)
+  client.listPictures(function (err, pictures) {
+    if (err) return res.send([])
+    res.send(pictures)
+  })
 })
 
 app.post('/api/pictures', ensureAuth, function (req, res) {
@@ -131,7 +112,24 @@ app.post('/api/pictures', ensureAuth, function (req, res) {
     if (err) {
       return res.send(500, 'Error uploading file')
     }
-    res.send('File uploaded')
+
+    var user = req.user
+    var token = req.user.token
+    var username = req.user.username
+    var src = req.file.location
+
+    client.savePicture({
+      src: src,
+      userId: username,
+      user: {
+        username: username,
+        avatar: user.avatar,
+        name: user.name
+      }
+    }, token, function (err, img) {
+      if (err) return res.status(500).send(err.message)
+      res.send(`File uploaded: ${req.file.location}`)
+    })
   })
 })
 
