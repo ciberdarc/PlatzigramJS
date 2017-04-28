@@ -2,13 +2,14 @@ var page = require('page')
 var empty = require('empty-element')
 var template = require('./template')
 var title = require('title')
-var request = require('superagent')
+// var request = require('superagent')
 var header = require('../header')
 var Webcam = require('webcamjs')
 var picture = require('../picture-card')
-// var axios = require('axios')
+var axios = require('axios')
+var utils = require('../utils')
 
-page('/', header, loading, loadPictures, function (ctx, next) {
+page('/', utils.loadAuth, header, loading, loadPicturesAxios, function (ctx, next) {
   title('Platzigram')
   var main = document.getElementById('main-container')
 
@@ -79,27 +80,27 @@ function loading (ctx, next) {
   next()
 }
 
-function loadPictures (ctx, next) {
-  request
-    .get('/api/pictures')
-    .end(function (err, res) {
-      if (err) return console.log(err)
-      ctx.pictures = res.body
-      next()
-    })
-}
-//
-// function loadPicturesAxios (ctx, next) {
-//   axios
+// function loadPictures (ctx, next) {
+//   request
 //     .get('/api/pictures')
-//     .then(function (res) {
-//       ctx.pictures = res.data
+//     .end(function (err, res) {
+//       if (err) return console.log(err)
+//       ctx.pictures = res.body
 //       next()
 //     })
-//     .catch(function (err) {
-//       console.log(err)
-//     })
 // }
+
+function loadPicturesAxios (ctx, next) {
+  axios
+    .get('/api/pictures')
+    .then(function (res) {
+      ctx.pictures = res.data
+      next()
+    })
+    .catch(function (err) {
+      console.log(err)
+    })
+}
 
 // function loadPicturesFetch (ctx, next) {
 //   fetch('/api/pictures')
