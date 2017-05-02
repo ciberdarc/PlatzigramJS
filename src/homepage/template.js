@@ -39,7 +39,7 @@ module.exports = function (pictures) {
       </div>
     </div>
   <div class="row">
-    <div class="col s12 offset-m1 l6 offset-l3" id="picture-cards">
+    <div id="pictures-container" class="col s12 offset-m1 l6 offset-l3">
       ${pictures.map(function (pic) {
         return picture(pic)
       })}
